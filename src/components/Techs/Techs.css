@@ -115,6 +115,7 @@
     }
 
     .techs__list {
+        width: 59%;
         grid-template-columns: repeat(3, auto);
         margin: auto;
     }

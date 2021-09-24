@@ -116,11 +116,32 @@
 @media screen and (max-width: 550px) {
     .login {
         width: 260px;
+        padding: 56px 0;
+    }
+
+    .login__logo {
+        padding-left: 111px;
     }
 
     .login__title {
-        margin: 50px 0 56px;
+        margin: 50px 0 80px;
         align-self: center;
+    }
+
+    .login__text {
+        margin: 0 0 5px 0;
+    }
+
+    .login__input {
+        padding: 0 0 7px;
+    }
+
+    .login__error {
+        margin: 13px 0 0 0;
+    }
+
+    .login__button {
+        margin: 286px auto 0;
     }
 
     .login__subtitle {

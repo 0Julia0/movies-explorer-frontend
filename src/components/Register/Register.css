@@ -116,11 +116,32 @@
 @media screen and (max-width: 550px) {
     .register {
         width: 260px;
+        padding: 56px 0;
+    }
+
+    .register__logo {
+        padding-left: 111px;
     }
 
     .register__title {
-        margin: 50px 0 56px;
+        margin: 50px 0 80px;
         align-self: center;
+    }
+
+    .register__text {
+        margin: 0 0 5px 0;
+    }
+
+    .register__input {
+        padding: 0 0 7px;
+    }
+
+    .register__error {
+        margin: 13px 0 0 0;
+    }
+
+    .register__button {
+        margin: 217px auto 0;
     }
 
     .register__subtitle {
