@@ -1,0 +1,117 @@
+.promo {
+    background-color: #073042;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+}
+
+.promo__image {
+    margin-top: 75px;
+    margin-right: 70px;
+    width: 310px;
+    height: 304px;
+}
+
+.promo__group {
+    display: flex;
+    flex-direction: column;
+    margin: 75px 70px 75px;
+}
+
+.promo__title {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 50px;
+    line-height: 58px;
+    color: #FFFFFF;
+    letter-spacing: -0.04em;
+    max-width: 640px;
+    margin: 0 0 36px 0;
+}
+
+.promo__text {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 16px;
+    color: #FFFFFF;
+    max-width: 310px;
+    margin: 0 0 143px 0;
+}
+
+.promo__button {
+    width: 129px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border: 1px solid #FFFFFF;
+    border-radius: 3px;
+    background-color: transparent;
+    color: #FFFFFF;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: center;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.promo__button:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+@media(max-width: 930px) {
+    .promo {
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .promo__image {
+        margin-top: 140px;
+        margin-right: 0;
+    }
+
+    .promo__group {
+        margin: 48px 0 76px;
+        align-items: center;
+    }
+
+    .promo__title {
+        font-size: 40px;
+        line-height: 50px;
+        max-width: 680px;
+        margin: 0 0 22px 0;
+        text-align: center;
+    }
+
+    .promo__text {
+        max-width: 260px;
+        margin: 0 0 92px 0;
+        text-align: center;
+    }
+}
+
+@media(max-width: 720px) {
+    .promo__image {
+        width: 210px;
+        height: 206px;
+        margin-top: 70px;
+    }
+
+    .promo__group {
+        margin: 44px 0 30px;
+    }
+
+    .promo__title {
+        font-size: 30px;
+        line-height: 38px;
+        width: 300px;
+        margin: 0 0 24px 0;
+    }
+
+    .promo__text {
+        margin: 0 0 77px 0;
+    }
+}

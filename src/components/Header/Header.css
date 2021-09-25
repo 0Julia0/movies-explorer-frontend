@@ -1,0 +1,27 @@
+.header {
+    background-color: #073042;
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    padding: 18px 70px;
+}
+
+.header_loggedIn {
+    background-color: #202020;
+}
+
+.header__logo:hover {
+    cursor: pointer;
+}
+
+@media(max-width: 992px) {
+    .header {
+        padding: 17px 30px;
+    }
+}
+
+@media(max-width: 720px) {
+    .header {
+        padding: 18px 14px;
+    }
+}

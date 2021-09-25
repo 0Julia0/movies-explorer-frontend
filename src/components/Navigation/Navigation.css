@@ -1,0 +1,247 @@
+.header__navigation {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 6px;
+}
+
+.header__navigation-login {
+    padding-top: 10px;
+}
+
+.header__navigation-login_invisible {
+    display: none;
+}
+
+.header__navigation-movies {
+    display: flex;
+    justify-content: space-between;
+}
+
+.header__navigation-movies_invisible {
+    display: none;
+}
+
+.header__link {
+    text-decoration: none;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: #FFFFFF;
+    transition: opacity 0.3s ease-in-out;
+    opacity: 0.7;
+}
+
+.header__link:hover {
+    opacity: 0.7;
+}
+
+.header__link_type_register {
+    margin-right: 30px;
+}
+
+.header__link_type_register_button {
+    background-color: #3DDC84;
+    padding: 8px 20px;
+    border-radius: 3px;
+    color:#000000;
+    opacity: 0.8;
+}
+
+.header__link_type_movies {
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    margin-right: 50px;
+    padding-top: 5px;
+}
+
+.header__link_type_movies:first-of-type {
+    margin-right: 24px;
+}
+
+.header__link_type_movies_button {
+    background-color: #313131;
+    font-size: 14px;
+    line-height: 16px;
+    border-radius: 20px;
+    padding: 8px 20px;
+    opacity: 0.8;
+}
+
+.header__menu-button {
+    display: none;
+}
+
+.header__menu-button:hover {
+    cursor: pointer;
+}
+
+.header__menu-button_invisible {
+    display: none;
+}
+
+.header__menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+    visibility: visible;
+    opacity: 1;
+    transition: all 0.3s ease-in-out;
+    z-index: 1;
+}
+
+.header__menu_invisible {
+    display: none;
+}
+
+.header__menu-close-button {
+    position: absolute;
+    background: url('../../images/close_button.svg') center no-repeat;
+    border: none;
+    outline: none;
+    height: 22px;
+    width: 22px;
+    top: 28px;
+    right: 28px;
+    z-index: 1;
+}
+
+.header__menu-close-button:hover {
+    cursor: pointer;
+}
+
+.header__menu-container {
+    background: #202020;
+    width: 68%;
+    height:100%;
+    position: relative;
+    z-index: 0;
+    transition: transform 0.2s ease-in;
+}
+
+.header__menu-links {
+    padding: 161px 77px 90px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header__menu-link {
+    padding-bottom: 4px;
+    border-bottom: 2px solid transparent;
+    margin-bottom: 22px;
+    color: #FFFFFF;
+    text-decoration: none;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.header__menu-link:hover {
+    opacity: 0.7;
+}
+
+.header__menu-link:active {
+    border-bottom: 2px solid #FFFFFF;
+}
+
+.header__menu-link_type_account {
+    margin: 592px 0 0 0;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    background: #313131;
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: none;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.header__menu-link_type_account:hover {
+    opacity: 0.8;
+}
+
+@media(max-width: 900px) {
+    .header__link_type_account{
+        display: none;
+    }
+
+    .header__link_type_movies {
+        display: none;
+    }
+
+    .header__link_type_movies_button {
+        display: none;
+    }
+
+    .header__menu-button {
+        display: flex;
+        background: url('../../images/menu.svg') center no-repeat;
+        height: 44px;
+        width: 44px;
+        border: none;
+        outline: none;
+    }
+
+    .header__navigation {
+        padding-top: 0;
+    }
+}
+
+@media(max-width: 768px) {
+    .header__menu-button {
+        background: url('../../images/small_menu.svg') center no-repeat;
+        height: 40px;
+        width: 43px;
+    }
+
+    .header__button {
+        display: block;
+    }
+}
+
+@media(max-width: 767px) {
+    .header__link_type_register {
+        font-size: 10px;
+        line-height: 16px;
+        margin-right: 14px;
+    }
+
+    .header__link_type_register_button {
+        font-size: 10px;
+        line-height: 16px;
+        padding: 7px 12px;
+    }
+
+    .header__menu-container {
+        width: 100%;
+        height:100%;
+    }
+
+    .header__menu-links {
+        padding: 146px 10px 46px 10px;
+    }
+
+    .header__menu-link {
+        margin-bottom: 18px;
+    }
+
+    .header__menu-close-button {
+        top: 19px;
+        right: 18px;
+    }
+
+    .header__menu-link_type_account {
+        margin: 419px 0 0 0;
+    }
+}

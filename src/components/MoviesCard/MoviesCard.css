@@ -1,0 +1,115 @@
+.movies__list-item {
+    background-color: #222222;
+    box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.08);
+    border-radius: 6px;
+}
+
+.movies__list-poster {
+    width: 100%;
+}
+
+.movies__list-description {
+    display: flex;
+    justify-content: space-between;
+}
+
+.movies__list-title {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 16px;
+    color: #FFFFFF;
+    margin: 12px 0 0 16px;
+}
+
+.movies__list-like {
+    background: url('../../images/like.svg') center no-repeat;
+    border: 1px solid transparent;
+    width: 30px;
+    height: 30px;
+    outline: none;
+    padding: 0;
+    margin-top: 6px;
+    margin-right: 16px;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.movies__list-like:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.movies__list-like_active {
+    background: url('../../images/like_active.svg') center no-repeat;
+}
+
+.movies__list-delete {
+    background: url('../../images/delete.svg') center no-repeat;
+    border: 1px solid transparent;
+    width: 30px;
+    height: 30px;
+    outline: none;
+    padding: 0;
+    margin-top: 6px;
+    margin-right: 16px;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s;
+}
+
+.movies__list-delete_visible {
+    visibility: visible;
+    opacity: 1;
+    cursor: pointer;
+}
+
+.movies__list-duration {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 13px;
+    color: #8B8B8B;
+    margin: 10px 0 16px 16px;
+}
+
+@media(max-width: 1140px) {
+    .movies__list-title {
+        margin: 10px 0 0 15px;
+    }
+
+    .movies__list-delete {
+        margin-right: 9px;
+    }
+
+    .movies__list-duration {
+        margin: 6px 0 15px 15px;
+    }
+}
+
+@media(max-width: 768px) {
+    .movies__list-poster {
+        width: 100%;
+    }
+}
+
+@media(max-width: 425px) {
+    .movies__list-poster {
+        width: 100%;
+    }
+
+    .movies__list-title {
+        font-size: 12px;
+        line-height: 15px;
+        margin: 11px 0 0 14px;
+    }
+
+    .movies__list-like {
+        margin-right: 9px;
+    }
+
+    .movies__list-duration {
+        font-size: 10px;
+        line-height: 12px;
+        margin: 4px 0 15px 15px;
+    }
+}

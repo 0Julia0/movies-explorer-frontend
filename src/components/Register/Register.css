@@ -1,0 +1,156 @@
+.register {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 396px;
+    margin: 0 auto;
+    padding: 70px 0;
+}
+
+.register__logo {
+    width: 38px;
+    height: 38px;
+}
+
+.register__title {
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    color: #FFFFFF;
+    margin: 40px 0 16px;
+  }
+
+  .register__form {
+      width: 100%;
+  }
+
+  .register__fields {
+    width: 100%;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+  .register__text {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 12px;
+    color: #8B8B8B;
+    margin: 24px 0 5px 0;
+}
+
+.register__input {
+    border: none;
+    border-bottom: 1px solid #424242;
+    background-color: transparent;
+    box-sizing: border-box;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    color: #FFFFFF;
+    padding: 0 0 10px;
+    width: 100%;
+    outline: none;
+}
+
+.register__input_invalid {
+    color: #EE3465;
+}
+
+.register__error {
+    display: block;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 10px;
+    line-height: 12px;
+    color: #EE3465;
+    margin: 6px 0 0 0;
+    min-height: 12px;
+}
+
+.register__button {
+    width: 100%;
+    margin: 134px auto 0;
+    padding-top: 13px;
+    padding-bottom: 15px;
+    border: none;
+    border-radius: 3px;
+    background: #4285F4;
+    color: #FFFFFF;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.register__button:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.register__subtitle {
+    color: #A0A0A0;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+    margin: 16px auto 0;
+}
+
+.register__link {
+    text-decoration: none;
+    color: #4285F4;
+    font-size: 14px;
+    line-height: 17px;
+    margin: 0 0 0 6px;
+}
+
+.register__link:hover {
+    opacity: 0.7;
+}
+
+@media screen and (max-width: 550px) {
+    .register {
+        width: 260px;
+        padding: 56px 0;
+    }
+
+    .register__logo {
+        padding-left: 111px;
+    }
+
+    .register__title {
+        margin: 50px 0 80px;
+        align-self: center;
+    }
+
+    .register__text {
+        margin: 0 0 5px 0;
+    }
+
+    .register__input {
+        padding: 0 0 7px;
+    }
+
+    .register__error {
+        margin: 13px 0 0 0;
+    }
+
+    .register__button {
+        margin: 217px auto 0;
+    }
+
+    .register__subtitle {
+        font-size: 12px;
+        line-height: 15px;
+    }
+
+    .register__link {
+        font-size: 12px;
+        line-height: 15px;
+    }
+}
