@@ -5,6 +5,19 @@
     align-items: center;
 }
 
+.movies__error {
+    margin: auto;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+    color: #FFFFFF;
+}
+
+.movies__error_invisible {
+    display: none;
+}
+
 .movies__list {
     list-style: none;
     padding: 0;

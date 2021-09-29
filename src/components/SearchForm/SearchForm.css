@@ -49,6 +49,22 @@
     color: #8B8B8B;
 }
 
+.search__form-error {
+    position: absolute;
+    display: inline-block;
+    color: #FF004C;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 13px;
+    left: 25%;
+    bottom: -50%;
+}
+
+.search__form-error_invisible {
+    display: none;
+}
+
 .search__form-button {
     background: url('../../images/search_icon_white.svg') no-repeat;
     background-position: center;
