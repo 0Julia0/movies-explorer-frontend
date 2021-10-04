@@ -41,6 +41,7 @@
 }
 
 .promo__button {
+    text-decoration: none;
     width: 129px;
     padding-top: 10px;
     padding-bottom: 10px;

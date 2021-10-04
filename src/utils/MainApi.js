@@ -88,7 +88,19 @@ export const register = (name, email, password) => {
         'Content-Type': 'application/json',
       },
       credentials: 'include',
-      body: JSON.stringify(data)
+      body: JSON.stringify({
+        country: data.country,
+        director: data.director,
+        duration: data.duration,
+        year: data.year,
+        description: data.description,
+        image: data.image,
+        trailer: data.trailer,
+        nameRU: data.nameRU,
+        nameEN: data.nameEN,
+        thumbnail: data.thumbnail,
+        movieId: data.movieId
+      })
     })
     .then(res => checkResponse(res));
   };

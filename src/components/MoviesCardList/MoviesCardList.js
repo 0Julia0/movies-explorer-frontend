@@ -38,10 +38,13 @@ function MoviesCardList({
         const windowWidth = window.innerWidth;
         if(windowWidth < 720) {
             setInitialCards(5)
+            setMoreCards(2)
         } else if(windowWidth < 920) {
             setInitialCards(8)
+            setMoreCards(2)
         } else if(windowWidth > 920) {
             setInitialCards(12)
+            setMoreCards(3)
         }
     }
 
@@ -58,11 +61,11 @@ function MoviesCardList({
     return (
         <section className="movies">
             <Preloader isSearching={isSearching} />
-            <span className={isErrorActive ? 'movies__error movies__error_invisible' : 'movies__error'}>
+            <span className={isErrorActive ? 'movies__error' : 'movies__error movies__error_invisible'}>
                 Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер 
                 недоступен. Подождите немного и попробуйте ещё раз
             </span>
-            <span className={notFound ? 'movies__error movies__error_invisible' : 'movies__error'}>Ничего не найдено</span>
+            <span className={notFound ? 'movies__error' : 'movies__error movies__error_invisible'}>Ничего не найдено</span>
             <ul className="movies__list">
                 {displayedMovies.map(movie => 
                     <MoviesCard 
@@ -76,7 +79,7 @@ function MoviesCardList({
                 )}
             </ul>
             <button 
-                className={saved ? 'movies__button movies__button_invisible' : 'movies__button'}
+                className={movies?.length === displayedMovies?.length ? 'movies__button movies__button_invisible' : 'movies__button'}
                 onClick={handleAddMovie}
                 >
                     Еще

@@ -14,7 +14,7 @@ function Register({
 
     function handleRegister(evt) {
         evt.preventDefault();
-        onRegister(values.name, values.password, values.email);
+        onRegister(values.name, values.email, values.password);
         onClear();
       }
 

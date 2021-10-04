@@ -17,7 +17,7 @@ function Navigation({ loggedIn }) {
         <div className='header__navigation'>
             <div className={loggedIn ? 'header__navigation-login_invisible' : 'header__navigation-login'}>
                 <Link to="/signup" className='header__link header__link_type_register'>Регистрация</Link>
-                <Link to="/signup" className='header__link header__link_type_register_button'>Войти</Link>
+                <Link to="/signin" className='header__link header__link_type_register_button'>Войти</Link>
             </div>
             <div className={loggedIn ? 'header__navigation-movies' : 'header__navigation-movies_invisible'}>
                 <Link to="/movies" className="header__link header__link_type_movies">Фильмы</Link>

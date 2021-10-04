@@ -14,7 +14,7 @@ function Movies({
 	notFound,
     savedMovies,
 	onMovieSave,
-	onDeleteMovie,
+	onMovieDelete,
 }) {
     return (
         <>
@@ -33,7 +33,7 @@ function Movies({
             saved={false}
             savedMovies={savedMovies}
             onMovieSave={onMovieSave}
-            onDeleteMovie={onDeleteMovie}
+            onMovieDelete={onMovieDelete}
         />
             <Footer />
         </>

@@ -14,6 +14,7 @@ import * as mainApi from '../../utils/MainApi';
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function App() {
+    const [currentUser, setCurrentUser] = React.useState({});
     const [loggedIn, setLoggedIn] = React.useState(false);
 	const [isSearching, setIsSearching] = React.useState(false);
 	const [isUpdateSuccess, setIsUpdateSuccess] = React.useState(true);
@@ -22,13 +23,11 @@ function App() {
 	const [isMoviesErrorActive, setIsMoviesErrorActive] = React.useState(false);
 	const [allMovies, setAllMovies] = React.useState([]);
     const [isShortMoviesChecked, setIsShortMoviesChecked] = React.useState(false);
-	const [currentUser, setCurrentUser] = React.useState('');
     const [isSaving, setIsSaving] = React.useState(false);
 	const [editProfileMessage, setEditProfileMessage] = React.useState('');
     const [registerErrorMessage, setRegisterErrorMessage] = React.useState('');
     const [loginErrorMessage, setLoginErrorMessage] = React.useState('');
     const [savedMovies, setSavedMovies] = React.useState([]);
-
     const history = useHistory();
 
     React.useEffect(() => {
@@ -36,8 +35,7 @@ function App() {
           Promise.all([mainApi.getUserInfo(), mainApi.getUserMovies()])
           .then(([userData, movies]) => {
             setCurrentUser(userData);
-            setSavedMovies(prevState => ([...prevState, movies]));
-            setMovies(movies);
+            setSavedMovies(movies);
           })
           .catch((err) => {
             console.log(err);
@@ -49,13 +47,13 @@ function App() {
         setIsShortMoviesChecked(evt.target.checked);
     }
 
-    function handleRegister({ name, email, password }) {
+    function handleRegister(name, email, password) {
         setIsSaving(true);
         return mainApi.register(name, email, password)
             .then((res) => {
                 if(res) {
                     setRegisterErrorMessage('')
-                    return res
+                    handleLogin(email, password);
                 } else if(res.error === 'Bad Request') {
                     setRegisterErrorMessage('Пользователь с таким email уже существует.');
                 } else if(res.message) {
@@ -75,6 +73,7 @@ function App() {
         return mainApi.authorize(email, password)
             .then((res) => {
                 if(res) {
+                    setCurrentUser(res);
                     setLoggedIn(true);
                     setLoginErrorMessage('');
                     history.push('/movies');
@@ -94,12 +93,12 @@ function App() {
 
     function handleUpdateUser(name, email) {
 		setIsSaving(true);
-		mainApi.updateProfile(name, email)
-			.then((user) => {
-				if(user) {
-			 		setCurrentUser(user);
+		return mainApi.updateProfile(name, email)
+			.then((res) => {
+				if(res) {
+			 		setCurrentUser(res);
 					setIsUpdateSuccess(true);
-				} else if(user.error === 'Bad Request') {
+				} else if(res.error === 'Bad Request') {
 					setEditProfileMessage('Пользователь с таким email уже существует.');
                     setIsUpdateSuccess(false);
 			    }
@@ -144,6 +143,7 @@ function App() {
 
     function searchSavedMovies(data) {
         const searchSavedResult = handleSearchMovies(savedMovies, data);
+        console.log(searchSavedResult)
         setSavedMovies(searchSavedResult);
     }
 
@@ -180,7 +180,7 @@ function App() {
                     setIsSearching(false);
                     setIsShortMoviesChecked(false);
                 } else if(searchResult.length !== 0) {
-					setMovies(searchResult);
+                    setMovies(searchResult);
                     setIsSearching(false);
                     setIsShortMoviesChecked(false);
                 } else {
@@ -191,9 +191,9 @@ function App() {
             }
     }
 
-    function handleMovieSave(movie) {
+    function handleMovieSave(data) {
         setIsSaving(true);
-        mainApi.saveMovie(movie)
+        mainApi.saveMovie(data)
           .then((newMovie) => {
             const newFilms = ([newMovie, ...savedMovies])
             setSavedMovies(prevState => ([...prevState, newFilms]));
@@ -206,12 +206,11 @@ function App() {
           })
       }
 
-    function handleMovieDelete(movie) {
+    function handleMovieDelete(data) {
         setIsSaving(true);
-        mainApi.deleteMovie(movie)
+        mainApi.deleteMovie(data)
             .then(() => {
-                const newMovies = SavedMovies.filter((deletedmovie) => deletedmovie._id !== movie._id)
-                setSavedMovies(newMovies);
+                setSavedMovies((prevMoviesState) => prevMoviesState.filter((deletedmovie) => deletedmovie._id !== data._id));
             })
             .catch((err) => {
                 console.log(err);
@@ -223,7 +222,7 @@ function App() {
 
     const tokenCheck = React.useCallback(() => {
         mainApi.getUserInfo()
-        .then((res) => {
+        .then(() => {
           setLoggedIn(true);
           history.push('/')
           })
@@ -272,6 +271,7 @@ function App() {
                     onShortMoviesCheck={handleShortMoviesCheck}
                     isShortMoviesChecked={isShortMoviesChecked}
                     movies={savedMovies}
+                    savedMovies={savedMovies}
                     onMovieDelete={handleMovieDelete}
 		    	/>
 		    	<ProtectedRoute

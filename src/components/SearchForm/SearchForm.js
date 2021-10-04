@@ -46,9 +46,7 @@ function SearchForm({
                         required
                     />
                     <span
-	                    className={`search__form-error ${
-	                    	isSearchValid ? "search__form-error_invisible" : ""
-	                    }`}
+	                    className={isSearchValid ? 'search__form-error search__form-error_invisible' : 'search__form-error'}
                     >
                     	Нужно ввести ключевое слово
                     </span>

@@ -4,7 +4,7 @@ import {useLocation} from 'react-router-dom';
 
 function MoviesCard({
 	movie,
-	savedMovies,
+    savedMovies,
 	onMovieSave,
 	onMovieDelete,
 	saved,
@@ -18,14 +18,15 @@ function MoviesCard({
         duration: movie.duration,
         year: movie.year,
         description: movie.description,
-        image: movie.image,
+        image: `https://api.nomoreparties.co${movie.image?.url}`,
         trailer: movie?.trailerLink,
         nameRU: movie.nameRU,
         nameEN: movie.nameEN,
-        thumbnail: movie.image,
+        thumbnail: `https://api.nomoreparties.co${movie.image?.formats?.thumbnail?.url}`,
         movieId: movie.id,
     }
-    const currentMovie = savedMovies.find((movie) => film.nameRU === movie.nameRU);
+
+    const currentMovie = savedMovies.find((film) => film.nameRU === movie.nameRU);
 
     const location = useLocation();
 
@@ -47,7 +48,8 @@ function MoviesCard({
         onMovieDelete(currentMovie._id);
     }
 
-    function handleDeleteMovie() {
+    function handleDeleteMovie(evt) {
+        evt.preventDefault();
         onMovieDelete(movie._id);
         setIsSaved(false);
     }
@@ -61,8 +63,8 @@ function MoviesCard({
 
     return (
         <li className="movies__list-item">
-            <a className="movies__list-link" href={saved ? movie.trailer : movie.trailerLink}>
-                <img className="movies__list-poster" alt={movie.nameRU} src={movie.image}/>
+            <a className="movies__list-link" href={saved ? movie.trailer : movie.trailerLink} target="_blank" rel="noreferrer">
+                <img className="movies__list-poster" alt={movie.nameRU} src={saved ? movie.image : `https://api.nomoreparties.co${movie.image?.url}`}/>
             </a>
             <div className="movies__list-description" onMouseEnter={handleCardMouseOver} onMouseLeave={handleCardMouseOut}>
                 <p className="movies__list-title">{movie.nameRU}</p>
@@ -71,7 +73,7 @@ function MoviesCard({
                     <button className={`movies__list-like ${isSaved ? 'movies__list-like_active' : ''}`} onClick={isSaved ? handleDislike : handleLike}></button>
                 }
             </div>
-            <p className="movies__list-duration">{`${Math.trunc(film.duration/60)}ч${film.duration % 60}м`}</p>
+            <p className="movies__list-duration">{`${Math.trunc(film.duration/60)}ч ${film.duration % 60}м`}</p>
         </li>
     )
 }

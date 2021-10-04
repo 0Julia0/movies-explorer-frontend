@@ -15,7 +15,7 @@ function Footer() {
 							rel="noreferrer"
 						>
 							Яндекс.Практикум
-						</a>;
+						</a>
 			  	    </li>
 		    		<li className="footer__links-element">
 			 		   	<a

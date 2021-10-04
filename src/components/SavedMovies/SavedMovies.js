@@ -8,8 +8,9 @@ function SavedMovies({
 	onSearchSavedMovies,
 	onShortMoviesCheck,
 	isShortMoviesChecked,
+    onMovieDelete,
     movies,
-    onMovieDelete
+    savedMovies
 }) {
     return (
         <>
@@ -21,7 +22,8 @@ function SavedMovies({
                 isChecked={isShortMoviesChecked}
             />
             <MoviesCardList 
-                movies={movies} 
+                movies={movies}
+                savedMovies={savedMovies}
                 saved={true}
                 onMovieDelete={onMovieDelete}
             />

@@ -11,7 +11,7 @@
 .search__toggle_visible {
     background: url('../../images/toggle.svg') right no-repeat;
     background-position: -45% 26%;
-    background-color: #3DDC84;
+    background-color: #EBEBEB;
     border-radius: 20px;
     display: block;
     width: 36px;
@@ -24,12 +24,6 @@
     background: url('../../images/toggle.svg') right no-repeat;
     background-position: 140% 26%;
     background-color: #3DDC84;
-}
-
-.search__toggle:disabled + .search__toggle_visible {
-    background: url('../../images/toggle.svg');
-    background-position: -45% 26%;
-    background-color: #EBEBEB;
 }
 
 @media(max-width: 1140px) {
