@@ -3,6 +3,7 @@ import './Profile.css';
 import Header from "../Header/Header";
 import {CurrentUserContext} from "../../contexts/CurrentUserContext";
 import {useValidation} from "../../hooks/useValidation";
+import validator from "validator";
 
 function Profile({
 	onUpdateUser,
@@ -10,9 +11,9 @@ function Profile({
 	isSaving,
 	loggedIn,
     message,
-    onSignOut,
+    onSignOut
 }) {
-    const {values, setValues, handleChange, errors, isValid} = useValidation();
+    const {values, setValues, handleChange, errors, isValid, setIsValid} = useValidation();
     const [isFormDisabled, setIsFormDisabled] = React.useState(true);
     const currentUser = React.useContext(CurrentUserContext);
     
@@ -22,7 +23,9 @@ function Profile({
 
       function handleSubmit(evt) {
         evt.preventDefault();
-        onUpdateUser(values.name, values.email);
+        if(validator.isEmail) {
+            onUpdateUser(values.name, values.email);
+        }
       }
 
     function handleEditProfileClick(evt) {
@@ -39,6 +42,16 @@ function Profile({
             setIsFormDisabled(true);
         }
     }, [isSaving])
+
+    React.useEffect(() => {
+        if (
+          currentUser.name === values.name &&
+          currentUser.email === values.email
+        ) {
+          setIsValid(false);
+          setIsFormDisabled(true)
+        }
+      }, [setIsValid, values, currentUser]);
 
     return (
         <>
@@ -76,10 +89,10 @@ function Profile({
                         </div>
                         <span className="profile__error">{errors.email}</span>
                     </fieldset>
-                    <span className={isUpdateSuccess ? 'profile__error profile__error_invisible' : 'profile__error'}>{message}</span>
+                    <span className={'profile__error'}>{message}</span>
                     {isFormDisabled ? <button className="profile__button profile__button_type_edit" onClick={handleEditProfileClick}>Редактировать</button> :
                         <button 
-                            className={isValid  ? 'profile__button profile__button_type_save' : 'profile__button profile__button_type_save_disabled'} 
+                            className={isValid ? 'profile__button profile__button_type_save' : 'profile__button profile__button_type_save_disabled'} 
                             type="submit" 
                             disabled={!isValid}
                         >

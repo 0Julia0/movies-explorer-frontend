@@ -1,4 +1,4 @@
-const BASE_URL = 'https://api.movies-explorer-julia.nomoredomains.club';
+import { BASE_URL } from './constants';
 
 const checkResponse = (res) => {
   if (!res.ok) {
@@ -36,6 +36,14 @@ export const register = (name, email, password) => {
         "email": email,
         "password": password,
       }),
+    })
+    .then(res => checkResponse(res));
+  };
+
+  export const logout = () => {
+    return fetch(`${BASE_URL}/signout`, {
+        method: 'POST',
+        credentials: "include"
     })
     .then(res => checkResponse(res));
   };

@@ -3,19 +3,26 @@ import {Link} from "react-router-dom";
 import "./Login.css";
 import logo from "../../images/logo.svg";
 import {useValidation} from "../../hooks/useValidation";
+import validator from "validator";
 
 function Login({ 
     onLogin, 
     onClear, 
     isSaving, 
-    message, 
+    message
 }) {
     const {values, handleChange, errors, isValid} = useValidation();
+    const [isEmailValid, setEmailValid] = React.useState();
     
     function handleLogin(evt) {
         evt.preventDefault();
-        onLogin(values.email, values.password);
-        onClear();
+        if(validator.isEmail) {
+            setEmailValid(true)
+            onLogin(values.email, values.password);
+            onClear();
+        } else {
+            setEmailValid(false)
+        }
     }
 
     return (
@@ -37,9 +44,9 @@ function Login({
                         name="email"
                         value={values.email}
                         onChange={handleChange}
-                        disabled={isSaving}
+                        disabled={isEmailValid}
                         required/>
-                    <span className="login__error">{errors.email}</span>
+                    <span className="login__error">{errors.password}</span>
                     <p className="login__text">Пароль</p>
                     <input 
                         className="login__input" 
@@ -47,14 +54,14 @@ function Login({
                         name="password"
                         value={values.password}
                         onChange={handleChange}
-                        disabled={isSaving}
+                        disabled={isEmailValid}
                         required 
                         minLength="8"/>
                     <span className="login__error">{errors.password}</span>
                 </fieldset>
                 <span className={isSaving ? 'login__error login__error_invisible' : 'login__error'}>{message}</span>
                 <button 
-                    className={isValid  ? 'login__button' : 'login__button login__button_disabled'} 
+                    className={isValid ? 'login__button' : 'login__button login__button_disabled'} 
                     type="submit" 
                     disabled={!isValid}
                 >

@@ -38,12 +38,14 @@ function MoviesCard({
         setIsDeleteButtonVisible(false);
     }
 
-    function handleLike() {
-        onMovieSave(film);
+    function handleLike(evt) {
+        evt.preventDefault();
         setIsSaved(true);
+        onMovieSave(film);
     }
 
-    function handleDislike() {
+    function handleDislike(evt) {
+        evt.preventDefault();
         setIsSaved(false);
         onMovieDelete(currentMovie._id);
     }

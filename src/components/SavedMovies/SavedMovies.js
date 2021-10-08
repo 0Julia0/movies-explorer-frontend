@@ -10,7 +10,8 @@ function SavedMovies({
 	isShortMoviesChecked,
     onMovieDelete,
     movies,
-    savedMovies
+    savedMovies,
+    notFound
 }) {
     return (
         <>
@@ -26,6 +27,7 @@ function SavedMovies({
                 savedMovies={savedMovies}
                 saved={true}
                 onMovieDelete={onMovieDelete}
+                notFound={notFound}
             />
             <Footer />
         </>

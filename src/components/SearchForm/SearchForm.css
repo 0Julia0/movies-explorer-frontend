@@ -51,7 +51,6 @@
 }
 
 .search__form-error {
-    position: absolute;
     display: inline-block;
     color: #FF004C;
     font-style: normal;

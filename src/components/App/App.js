@@ -12,6 +12,13 @@ import NotFound from "../NotFound/NotFound";
 import * as moviesApi from '../../utils/MoviesApi';
 import * as mainApi from '../../utils/MainApi';
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { 
+    badRequestErrorText, 
+    registrationErrorText,
+    authorizationErrorText,
+    successProfileMessage,
+    updateProfileErrorText
+ } from '../../utils/constants';
 
 function App() {
     const [currentUser, setCurrentUser] = React.useState({});
@@ -34,8 +41,11 @@ function App() {
         if (loggedIn) {
           Promise.all([mainApi.getUserInfo(), mainApi.getUserMovies()])
           .then(([userData, movies]) => {
+            setMovies(JSON.parse(localStorage.getItem('movies')))
+            console.log(movies)
             setCurrentUser(userData);
             setSavedMovies(movies);
+            setLoggedIn(true);
           })
           .catch((err) => {
             console.log(err);
@@ -49,19 +59,20 @@ function App() {
 
     function handleRegister(name, email, password) {
         setIsSaving(true);
-        return mainApi.register(name, email, password)
+        return mainApi
+            .register(name, email, password)
             .then((res) => {
                 if(res) {
                     setRegisterErrorMessage('')
                     handleLogin(email, password);
                 } else if(res.error === 'Bad Request') {
-                    setRegisterErrorMessage('Пользователь с таким email уже существует.');
+                    setRegisterErrorMessage(badRequestErrorText);
                 } else if(res.message) {
                     setRegisterErrorMessage(res.message);
                 }
             })
             .catch(() => {
-                setRegisterErrorMessage('При регистрации пользователя произошла ошибка.');
+                setRegisterErrorMessage(registrationErrorText);
             })
             .finally(() => {
                 setIsSaving(false);
@@ -70,7 +81,8 @@ function App() {
 
 	function handleLogin(email, password) {
         setIsSaving(true);
-        return mainApi.authorize(email, password)
+        return mainApi
+            .authorize(email, password)
             .then((res) => {
                 if(res) {
                     setCurrentUser(res);
@@ -78,13 +90,13 @@ function App() {
                     setLoginErrorMessage('');
                     history.push('/movies');
                 } else if(res.error === 'Bad Request') {
-                    setLoginErrorMessage('Вы ввели неправильный логин или пароль. ');
+                    setLoginErrorMessage(badRequestErrorText);
                 } else if(res.message) {
                     setLoginErrorMessage(res.message);
                 }
             })
             .catch(() => {
-                setLoginErrorMessage('При авторизации произошла ошибка. Токен не передан или передан не в том формате.');
+                setLoginErrorMessage(authorizationErrorText);
               })
             .finally(() => {
                 setIsSaving(false);
@@ -93,18 +105,20 @@ function App() {
 
     function handleUpdateUser(name, email) {
 		setIsSaving(true);
-		return mainApi.updateProfile(name, email)
+		return mainApi
+            .updateProfile(name, email)
 			.then((res) => {
 				if(res) {
 			 		setCurrentUser(res);
 					setIsUpdateSuccess(true);
+                    setEditProfileMessage(successProfileMessage);
 				} else if(res.error === 'Bad Request') {
-					setEditProfileMessage('Пользователь с таким email уже существует.');
+					setEditProfileMessage(badRequestErrorText);
                     setIsUpdateSuccess(false);
 			    }
 			})
 		    .catch(() => {
-		 		setEditProfileMessage('При обновлении профиля произошла ошибка');
+		 		setEditProfileMessage(updateProfileErrorText);
 				setIsUpdateSuccess(false);
 			})
 		 	.finally(() => {
@@ -113,11 +127,15 @@ function App() {
 	}
 
     function handleSignOut() {
-		setLoggedIn(false)
-        setMovies([]);
-        setAllMovies([]);
-        history.push('/');
-    }
+        mainApi.logout()
+        .then(() => {
+            localStorage.removeItem('movies');
+            setLoggedIn(false)
+            setMovies([]);
+            setAllMovies([]);
+            history.push('/');
+        })
+      }
 
     function clearAllErrorMessages() {
         setRegisterErrorMessage('');
@@ -143,8 +161,12 @@ function App() {
 
     function searchSavedMovies(data) {
         const searchSavedResult = handleSearchMovies(savedMovies, data);
-        console.log(searchSavedResult)
-        setSavedMovies(searchSavedResult);
+        if(searchSavedResult.length === 0) {
+            setNotFound(true);
+        } else {
+            setNotFound(false);
+            setSavedMovies(searchSavedResult);
+        }
     }
 
 	function searchMovies(data) {
@@ -161,7 +183,8 @@ function App() {
                             setNotFound(true);
                             setMovies([]);
                         } else {
-                            setMovies(searchResult);
+                            localStorage.setItem('movies', JSON.stringify(searchResult))
+                            setMovies(JSON.parse(localStorage.getItem('movies')));
                         }
                     })
                     .catch(() => {
@@ -180,7 +203,8 @@ function App() {
                     setIsSearching(false);
                     setIsShortMoviesChecked(false);
                 } else if(searchResult.length !== 0) {
-                    setMovies(searchResult);
+                    localStorage.setItem('movies', JSON.stringify(searchResult));
+                    setMovies(JSON.parse(localStorage.getItem('movies')));
                     setIsSearching(false);
                     setIsShortMoviesChecked(false);
                 } else {
@@ -195,8 +219,7 @@ function App() {
         setIsSaving(true);
         mainApi.saveMovie(data)
           .then((newMovie) => {
-            const newFilms = ([newMovie, ...savedMovies])
-            setSavedMovies(prevState => ([...prevState, newFilms]));
+            setSavedMovies([newMovie, ...savedMovies]);
           })
           .catch((err) => {
             console.log(err);
@@ -206,11 +229,12 @@ function App() {
           })
       }
 
-    function handleMovieDelete(data) {
+
+   function handleMovieDelete(data) {
         setIsSaving(true);
         mainApi.deleteMovie(data)
             .then(() => {
-                setSavedMovies((prevMoviesState) => prevMoviesState.filter((deletedmovie) => deletedmovie._id !== data._id));
+                setSavedMovies((prevMoviesState) => prevMoviesState.filter((deletedmovie) => deletedmovie._id !== data));
             })
             .catch((err) => {
                 console.log(err);
@@ -224,17 +248,15 @@ function App() {
         mainApi.getUserInfo()
         .then(() => {
           setLoggedIn(true);
-          history.push('/')
           })
         .catch((err) => {
           console.log(err);
-          history.push('/signin')
         });
-    }, [history])
-    
+    }, [])
+
     React.useEffect(() => {
-      tokenCheck()
-    }, [tokenCheck])
+        tokenCheck()
+      }, [tokenCheck])
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -243,9 +265,6 @@ function App() {
 		    	<Route exact path="/">
 			    	<Main loggedIn={loggedIn} />
 		    	</Route>
-		    	<Route exact path="/">
-			    	{loggedIn ? <Redirect to="/" /> : <Redirect to="/signin" />}
-			    </Route>
 		    	<ProtectedRoute
 			    	exact
 			    	path="/movies"
@@ -273,6 +292,7 @@ function App() {
                     movies={savedMovies}
                     savedMovies={savedMovies}
                     onMovieDelete={handleMovieDelete}
+                    notFound={notFound} 
 		    	/>
 		    	<ProtectedRoute
 		    		exact

@@ -67,7 +67,7 @@ function MoviesCardList({
             </span>
             <span className={notFound ? 'movies__error' : 'movies__error movies__error_invisible'}>Ничего не найдено</span>
             <ul className="movies__list">
-                {displayedMovies.map(movie => 
+                {displayedMovies?.map(movie => 
                     <MoviesCard 
                         key={saved ? movie.movieId : movie.id}
                         movie={movie}

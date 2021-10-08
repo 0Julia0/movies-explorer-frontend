@@ -13,19 +13,26 @@ function SearchForm({
     const [search, setSearch] = React.useState('');
     const [isSearchValid, setIsSearchValid] = React.useState(true);
 
+    function handleCheckValidity() {
+        if (search === "") {
+            setIsSearchValid(false);
+        } else {
+            setIsSearchValid(true);
+        }
+    }
+
     function handleSearchChange(evt) {
         setSearch(evt.target.value);
-        setIsSearchValid(evt.target.checkValidity());
     }
 
     function handleSearchSavedMovies(evt) {
         evt.preventDefault();
-        onSearchSavedMovies(search);
+        onSearchSavedMovies(search.toLowerCase());
     }
 
     function handleSearchMovies(evt) {
         evt.preventDefault();
-        onSearchMovies(search);
+        onSearchMovies(search.toLowerCase());
     }
 
     return (
@@ -43,7 +50,6 @@ function SearchForm({
                         placeholder="Фильм"
                         value={search}
                         onChange={handleSearchChange}
-                        required
                     />
                     <span
 	                    className={isSearchValid ? 'search__form-error search__form-error_invisible' : 'search__form-error'}
@@ -51,7 +57,12 @@ function SearchForm({
                     	Нужно ввести ключевое слово
                     </span>
                 </fieldset>
-                <button className="search__form-button" type="submit"></button>
+                <button 
+                    className="search__form-button" 
+                    type="submit"
+                    onClick={handleCheckValidity}
+                >
+                </button>
                 <div className="search__toggle-box">
                     <FilterCheckbox
                         onChange={onShortMoviesCheck}
