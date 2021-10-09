@@ -35,6 +35,8 @@ function App() {
     const [registerErrorMessage, setRegisterErrorMessage] = React.useState('');
     const [loginErrorMessage, setLoginErrorMessage] = React.useState('');
     const [savedMovies, setSavedMovies] = React.useState([]);
+    const [isCheckingToken, setIsCheckingToken] = React.useState(true);
+    const [rememberedMovies, setRememberedMovies] = React.useState([]);
     const history = useHistory();
 
     React.useEffect(() => {
@@ -42,10 +44,9 @@ function App() {
           Promise.all([mainApi.getUserInfo(), mainApi.getUserMovies()])
           .then(([userData, movies]) => {
             setMovies(JSON.parse(localStorage.getItem('movies')))
-            console.log(movies)
             setCurrentUser(userData);
             setSavedMovies(movies);
-            setLoggedIn(true);
+            setRememberedMovies(movies);
           })
           .catch((err) => {
             console.log(err);
@@ -146,9 +147,11 @@ function App() {
 	function handleSearchMovies(movies, data) {
         let foundMovies = [];
         movies.forEach((movie) => {
-            if(movie.nameRU.indexOf(data) > -1) {
+            const searchName = movie.nameRU.toLowerCase().includes(data.toLowerCase()) ||
+            movie.nameEN?.toLowerCase().includes(data.toLowerCase())
+            if(searchName) {
                 if(isShortMoviesChecked) {
-                    if(movie.duration <= 40) {
+                    if(movie.duration <= 40 && searchName) {
                         return foundMovies.push(movie);
                     }
                     return
@@ -160,12 +163,18 @@ function App() {
     }
 
     function searchSavedMovies(data) {
-        const searchSavedResult = handleSearchMovies(savedMovies, data);
+        setIsSearching(true);
+        setNotFound(false);
+        setIsMoviesErrorActive(false);
+        const searchSavedResult = handleSearchMovies(rememberedMovies, data);
         if(searchSavedResult.length === 0) {
             setNotFound(true);
+            setIsSearching(false);
+            setSavedMovies([]);
         } else {
-            setNotFound(false);
-            setSavedMovies(searchSavedResult);
+           setNotFound(false);
+           setSavedMovies(searchSavedResult);
+           setIsSearching(false);
         }
     }
 
@@ -193,7 +202,6 @@ function App() {
                     })
                     .finally(() => {
                         setIsSearching(false);
-                        setIsShortMoviesChecked(false);
                     })
             } else {
                 const searchResult = handleSearchMovies(allMovies, data);
@@ -201,16 +209,13 @@ function App() {
                     setNotFound(true);
                     setMovies([]);
                     setIsSearching(false);
-                    setIsShortMoviesChecked(false);
                 } else if(searchResult.length !== 0) {
                     localStorage.setItem('movies', JSON.stringify(searchResult));
                     setMovies(JSON.parse(localStorage.getItem('movies')));
                     setIsSearching(false);
-                    setIsShortMoviesChecked(false);
                 } else {
                     setIsMoviesErrorActive(true);
                     setMovies([]);
-                    setIsShortMoviesChecked(false);
                 }
             }
     }
@@ -220,6 +225,7 @@ function App() {
         mainApi.saveMovie(data)
           .then((newMovie) => {
             setSavedMovies([newMovie, ...savedMovies]);
+            setRememberedMovies([newMovie, ...savedMovies]);
           })
           .catch((err) => {
             console.log(err);
@@ -235,6 +241,7 @@ function App() {
         mainApi.deleteMovie(data)
             .then(() => {
                 setSavedMovies((prevMoviesState) => prevMoviesState.filter((deletedmovie) => deletedmovie._id !== data));
+                setRememberedMovies((prevMoviesState) => prevMoviesState.filter((deletedmovie) => deletedmovie._id !== data));
             })
             .catch((err) => {
                 console.log(err);
@@ -248,11 +255,12 @@ function App() {
         mainApi.getUserInfo()
         .then(() => {
           setLoggedIn(true);
+          setIsCheckingToken(false)
           })
         .catch((err) => {
           console.log(err);
         });
-    }, [])
+    }, [setIsCheckingToken])
 
     React.useEffect(() => {
         tokenCheck()
@@ -266,7 +274,7 @@ function App() {
 			    	<Main loggedIn={loggedIn} />
 		    	</Route>
 		    	<ProtectedRoute
-			    	exact
+                    exact 
 			    	path="/movies"
 			    	component={Movies}
 		    		loggedIn={loggedIn}
@@ -280,30 +288,35 @@ function App() {
                     savedMovies={savedMovies}
                     onMovieSave={handleMovieSave}
                     onMovieDelete={handleMovieDelete}
+                    isCheckingToken={isCheckingToken}
 		    	/>
 		    	<ProtectedRoute
-			    	exact
+                    exact
 			    	path="/saved-movies"
 			    	component={SavedMovies}
 			    	loggedIn={loggedIn}
                     onSearchSavedMovies={searchSavedMovies}
                     onShortMoviesCheck={handleShortMoviesCheck}
                     isShortMoviesChecked={isShortMoviesChecked}
+                    isErrorActive={isMoviesErrorActive} 
                     movies={savedMovies}
+                    isSearching={isSearching} 
+                    notFound={notFound} 
                     savedMovies={savedMovies}
                     onMovieDelete={handleMovieDelete}
-                    notFound={notFound} 
+                    isCheckingToken={isCheckingToken}
 		    	/>
 		    	<ProtectedRoute
-		    		exact
+                    exact
 		    		path="/profile"
 			    	component={Profile}
                     onUpdateUser={handleUpdateUser}
                     isUpdateSuccess={isUpdateSuccess}
                     isSaving={isSaving}
-		    		loggedIn={loggedIn}
+                    loggedIn={loggedIn}
                     message={editProfileMessage}
 					onSignOut={handleSignOut}
+                    isCheckingToken={isCheckingToken}
 		    	/>
 	    		<Route exact path="/signup">
 		    		{loggedIn ? <Redirect to="/" /> : <Register 

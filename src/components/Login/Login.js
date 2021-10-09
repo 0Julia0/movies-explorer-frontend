@@ -3,25 +3,21 @@ import {Link} from "react-router-dom";
 import "./Login.css";
 import logo from "../../images/logo.svg";
 import {useValidation} from "../../hooks/useValidation";
-import validator from "validator";
+var validator = require("email-validator");
 
 function Login({ 
     onLogin, 
     onClear, 
-    isSaving, 
+    isSaving,
     message
 }) {
     const {values, handleChange, errors, isValid} = useValidation();
-    const [isEmailValid, setEmailValid] = React.useState();
     
     function handleLogin(evt) {
         evt.preventDefault();
-        if(validator.isEmail) {
-            setEmailValid(true)
+        if(validator.validate(values.email)) {
             onLogin(values.email, values.password);
             onClear();
-        } else {
-            setEmailValid(false)
         }
     }
 
@@ -44,7 +40,6 @@ function Login({
                         name="email"
                         value={values.email}
                         onChange={handleChange}
-                        disabled={isEmailValid}
                         required/>
                     <span className="login__error">{errors.password}</span>
                     <p className="login__text">Пароль</p>
@@ -54,7 +49,6 @@ function Login({
                         name="password"
                         value={values.password}
                         onChange={handleChange}
-                        disabled={isEmailValid}
                         required 
                         minLength="8"/>
                     <span className="login__error">{errors.password}</span>

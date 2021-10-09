@@ -3,7 +3,7 @@ import "./Register.css";
 import { Link } from "react-router-dom";
 import logo from "../../images/logo.svg";
 import {useValidation} from "../../hooks/useValidation";
-import validator from "validator";
+var validator = require("email-validator");
 
 function Register({
 	onRegister,
@@ -16,8 +16,8 @@ function Register({
 
     function handleRegister(evt) {
         evt.preventDefault();
-        if(validator.isEmail) {
-            setEmailValid(true)
+        setEmailValid(true)
+        if(validator.validate(values.email)) {
             onRegister(values.name, values.email, values.password);
             onClear();
         } else {
@@ -44,7 +44,6 @@ function Register({
                         name="name"
                         value={values.name}
                         onChange={handleChange}
-                        disabled={isEmailValid}
                         required
                     />
                     <span className="register__error">{errors.name}</span>
@@ -55,7 +54,6 @@ function Register({
                         name="email"
                         value={values.email}
                         onChange={handleChange}
-                        disabled={isEmailValid}
                         required
                     />
                     <span className={isEmailValid  ? 'register__error' : 'register__error register__error_invisible'}>Почта не валидна.</span>
@@ -66,7 +64,6 @@ function Register({
                         name="password"
                         value={values.password}
                         onChange={handleChange}
-                        disabled={isEmailValid}
                         required 
                         minLength="8"
                     />

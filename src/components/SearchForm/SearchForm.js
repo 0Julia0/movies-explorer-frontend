@@ -4,11 +4,11 @@ import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import React from "react";
 
 function SearchForm({
-	onSearchSavedMovies,
 	onSearchMovies,
-	saved,
+    onSearchSavedMovies,
+    saved,
 	onShortMoviesCheck,
-    isChecked,
+    isChecked
 }) {
     const [search, setSearch] = React.useState('');
     const [isSearchValid, setIsSearchValid] = React.useState(true);
@@ -27,12 +27,12 @@ function SearchForm({
 
     function handleSearchSavedMovies(evt) {
         evt.preventDefault();
-        onSearchSavedMovies(search.toLowerCase());
+        onSearchSavedMovies(search);
     }
 
     function handleSearchMovies(evt) {
         evt.preventDefault();
-        onSearchMovies(search.toLowerCase());
+        onSearchMovies(search);
     }
 
     return (

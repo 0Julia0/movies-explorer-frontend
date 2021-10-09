@@ -5,13 +5,15 @@ import Footer from "../Footer/Footer";
 
 function SavedMovies({
 	loggedIn,
-	onSearchSavedMovies,
+    onSearchSavedMovies,
 	onShortMoviesCheck,
 	isShortMoviesChecked,
     onMovieDelete,
     movies,
+    isSearching,
     savedMovies,
-    notFound
+    notFound,
+    isErrorActive
 }) {
     return (
         <>
@@ -24,10 +26,12 @@ function SavedMovies({
             />
             <MoviesCardList 
                 movies={movies}
-                savedMovies={savedMovies}
+                isSearching={isSearching}
                 saved={true}
+                savedMovies={savedMovies}
                 onMovieDelete={onMovieDelete}
                 notFound={notFound}
+                isErrorActive={isErrorActive} 
             />
             <Footer />
         </>
