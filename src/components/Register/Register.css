@@ -70,6 +70,10 @@
     min-height: 12px;
 }
 
+.register__error_invisible {
+    display: none;
+}
+
 .register__button {
     width: 100%;
     margin: 134px auto 0;
@@ -90,6 +94,11 @@
 .register__button:hover {
     opacity: 0.8;
     cursor: pointer;
+}
+
+.register__button_disabled {
+    background: #F8F8F8;
+    color: #C2C2C2;
 }
 
 .register__subtitle {

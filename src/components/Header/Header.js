@@ -3,9 +3,9 @@ import Navigation from "../Navigation/Navigation";
 import './Header.css'
 import { Link } from "react-router-dom";
 
-function Header(props) {
+function Header({ main, loggedIn, }) {
     return (
-        <section className={props.loggedIn ? 'header header_loggedIn' : 'header'}>
+        <section className={main ? 'header' : 'header header_loggedIn'}>
             <Link to="/">
                 <img
                     className="header__logo"
@@ -13,7 +13,7 @@ function Header(props) {
                     alt="Логотип"
                 />
             </Link>
-            <Navigation loggedIn={props.loggedIn}/>
+            <Navigation loggedIn={loggedIn}/>
         </section>
     )
 }
